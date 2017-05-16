@@ -1,3 +1,14 @@
+aioga
+=====
+
+:info: Google Analytics client for asyncio
+
+.. image:: https://img.shields.io/travis/wikibusiness/aioga.svg
+    :target: https://travis-ci.org/wikibusiness/aioga
+
+.. image:: https://img.shields.io/pypi/v/aioga.svg
+    :target: https://pypi.python.org/pypi/aioga
+
 Installation
 ============
 
@@ -13,41 +24,28 @@ Usage
     import asyncio
     import uuid
 
-    from aioga import Api
+    from aioga import GA
 
     TRACKING_ID = 'XX-XXXXXXXX-X'
 
 
     async def go():
-        ga = None
+        cid = uuid.uuid4()
 
-        try:
-            ga = Api(TRACKING_ID)
-
-            cid = uuid.uuid4()
-
-            # You can call method and "forget" about it.
-            ga.event(cid, ec='tests', ea='success without await')
-
-            # Or you can wait, while request will be complete, if need
-            await ga.event(cid, ec='tests', ea='success with await')
-        finally:
-            if ga is not None:
-                await ga.close()
-
-        # or you can use context manager
-        async with Api(TRACKING_ID) as ga:
-            await ga.event(cid, ec='tests', ea='success from context manager')
+        async with GA(TRACKING_ID) as ga:
+            ga.event(str(cid), ec='tests', ea='success from context manager')
+            # all methods returns asynio.Tasks, which can be awaited if needed
 
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(go())
     loop.close()
 
+
 Documentation
 =============
 
-This library is asynchronous wrapper for measurement protocol.
+The library is asynchronous client for measurement protocol.
 All available hit types are supported.
 
 `Full documentation <https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide>`_ of measurement protocol provides by google

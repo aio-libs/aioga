@@ -8,10 +8,10 @@ from .compat import AIOHTTP_2, ensure_future, PY_350
 __version__ = '0.0.1'
 
 
-class Api:
+class GA:
 
-    base_url = URL('https://www.google-analytics.com')
-    collect_path = '/collect'
+    base_url = URL('https://www.google-analytics.com/')
+    collect_path = 'collect'
 
     def __init__(
         self,
@@ -19,7 +19,8 @@ class Api:
         version=1,
         timeout=60,
         session=None,
-        *, loop=None
+        *,
+        loop=None
     ):
         if loop is None:
             loop = asyncio.get_event_loop()
@@ -63,7 +64,7 @@ class Api:
         try:
             with aiohttp.Timeout(self.timeout, loop=self.loop):
                 response = yield from self.session.post(
-                    self.base_url.with_path(self.collect_path),
+                    self.base_url / self.collect_path,
                     data=params,
                     headers={
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -72,6 +73,8 @@ class Api:
                 )
 
             response.raise_for_status()
+
+            return response
         finally:
             if response is not None:
                 yield from response.release()

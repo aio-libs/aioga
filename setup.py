@@ -26,7 +26,7 @@ setup(
     author='wikibusiness',
     author_email='osf@wikibusiness.org',
     url='https://github.com/wikibusiness/aioga',
-    description='Google Analytics wrapper for asyncio',
+    description='Google Analytics client for asyncio',
     long_description=read('README.rst'),
     install_requires=[
         'aiohttp>=1.3.0',

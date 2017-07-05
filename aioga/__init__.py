@@ -3,7 +3,7 @@ import asyncio
 import aiohttp
 from yarl import URL
 
-from .compat import AIOHTTP_2, ensure_future, PY_350
+from .compat import ensure_future, PY_350
 
 __version__ = '0.0.2'
 
@@ -117,12 +117,7 @@ class GA:
         if self.futs:
             yield from asyncio.gather(*self.futs, loop=self.loop)
 
-        coro = self.session.close()
-
-        if AIOHTTP_2:
-            return
-
-        yield from coro
+        yield from self.session.close()
 
     if PY_350:
         @asyncio.coroutine

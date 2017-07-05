@@ -5,7 +5,7 @@ from yarl import URL
 
 from .compat import ensure_future, PY_350
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 
 class GA:

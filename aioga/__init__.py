@@ -5,7 +5,7 @@ from yarl import URL
 
 from .compat import ensure_future, PY_350
 
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 
 class GA:
@@ -124,5 +124,6 @@ class GA:
         def __aenter__(self):  # noqa
             return self
 
+        @asyncio.coroutine
         def __aexit__(self, *exc_info):  # noqa
-            return self.close()
+            yield from self.close()

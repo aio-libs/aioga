@@ -3,8 +3,8 @@ aioga
 
 :info: Google Analytics client for asyncio
 
-.. image:: https://img.shields.io/travis/wikibusiness/aioga.svg
-    :target: https://travis-ci.org/wikibusiness/aioga
+.. image:: https://img.shields.io/travis/aio-libs/aioga.svg
+    :target: https://travis-ci.org/aio-libs/aioga
 
 .. image:: https://img.shields.io/pypi/v/aioga.svg
     :target: https://pypi.python.org/pypi/aioga

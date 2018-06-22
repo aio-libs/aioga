@@ -1,11 +1,11 @@
 import asyncio
 
 import aiohttp
+from async_timeout import timeout
 from yarl import URL
 
-from .compat import ensure_future, PY_350
 
-__version__ = '0.0.5'
+__version__ = '0.1.0'
 
 
 class GA:
@@ -19,14 +19,7 @@ class GA:
         version=1,
         timeout=60,
         session=None,
-        *,
-        loop=None
     ):
-        if loop is None:
-            loop = asyncio.get_event_loop()
-
-        self.loop = loop
-
         self.tracking_id = tracking_id
         self.version = version
         self.timeout = timeout
@@ -35,7 +28,6 @@ class GA:
             session = aiohttp.ClientSession(
                 connector=aiohttp.TCPConnector(
                     use_dns_cache=False,
-                    loop=self.loop,
                 ),
             )
 
@@ -55,15 +47,14 @@ class GA:
 
         return params
 
-    @asyncio.coroutine
-    def __request(self, request_type, cid, **kwargs):
+    async def __request(self, request_type, cid, **kwargs):
         params = self._prepare_params(request_type, cid, **kwargs)
 
         response = None
 
         try:
-            with aiohttp.Timeout(self.timeout, loop=self.loop):
-                response = yield from self.session.post(
+            async with timeout(self.timeout):
+                response = await self.session.post(
                     self.base_url / self.collect_path,
                     data=params,
                     headers={
@@ -77,11 +68,11 @@ class GA:
             return response
         finally:
             if response is not None:
-                yield from response.release()
+                await response.release()
 
     def _request(self, *args, **kwargs):
         coro = self.__request(*args, **kwargs)
-        fut = ensure_future(coro, loop=self.loop)
+        fut = asyncio.ensure_future(coro)
 
         self.futs.add(fut)
         fut.add_done_callback(self.futs.remove)
@@ -112,18 +103,14 @@ class GA:
     def timing(self, cid, **kwargs):
         return self._request('timing', cid, **kwargs)
 
-    @asyncio.coroutine
-    def close(self):
+    async def close(self):
         if self.futs:
-            yield from asyncio.gather(*self.futs, loop=self.loop)
+            await asyncio.gather(*self.futs)
 
-        yield from self.session.close()
+        await self.session.close()
 
-    if PY_350:
-        @asyncio.coroutine
-        def __aenter__(self):  # noqa
-            return self
+    async def __aenter__(self):  # noqa
+        return self
 
-        @asyncio.coroutine
-        def __aexit__(self, *exc_info):  # noqa
-            yield from self.close()
+    async def __aexit__(self, *exc_info):  # noqa
+        await self.close()

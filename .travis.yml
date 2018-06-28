@@ -1,12 +1,15 @@
 dist: trusty
 language: python
 python:
-  - "3.4"
   - "3.5"
   - "3.6"
 env:
-  - AIOHTTP="2"
-  - AIOHTTP="1"
+  - AIOHTTP="3"
+matrix:
+  include:
+    - python: 3.7
+      dist: xenial
+      sudo: true
 install:
   - pip install -U setuptools
   - pip install -U pip

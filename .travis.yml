@@ -3,12 +3,13 @@ language: python
 python:
   - "3.5"
   - "3.6"
-  - "3.7"
 env:
   - AIOHTTP="3"
 matrix:
-  allow_failures:
-    - python: "3.7"
+  include:
+    - python: 3.7
+      dist: xenial
+      sudo: true
 install:
   - pip install -U setuptools
   - pip install -U pip

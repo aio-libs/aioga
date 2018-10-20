@@ -3,8 +3,9 @@ aioga
 
 :info: Google Analytics client for asyncio
 
-.. image:: https://img.shields.io/travis/aio-libs/aioga.svg
-    :target: https://travis-ci.org/aio-libs/aioga
+.. image:: https://travis-ci.com/aio-libs/aioga.svg?branch=master
+   :target: https://travis-ci.com/aio-libs/aioga
+   :alt: Travis status for master branch
 
 .. image:: https://img.shields.io/pypi/v/aioga.svg
     :target: https://pypi.python.org/pypi/aioga

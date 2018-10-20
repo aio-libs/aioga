@@ -3,8 +3,9 @@ aioga
 
 :info: Google Analytics client for asyncio
 
-.. image:: https://img.shields.io/travis/aio-libs/aioga.svg
-    :target: https://travis-ci.org/aio-libs/aioga
+.. image:: https://travis-ci.com/aio-libs/aioga.svg?branch=master
+   :target: https://travis-ci.com/aio-libs/aioga
+   :alt: Travis status for master branch
 
 .. image:: https://img.shields.io/pypi/v/aioga.svg
     :target: https://pypi.python.org/pypi/aioga
@@ -66,7 +67,8 @@ Available methods
 Available parameters
 --------------------
 
-All methods require cid (Client ID). The value of this field
+All methods accept cid (Client ID). This field is mandatory,
+unless uid (User ID) is provided. The value of the cid field
 should be a random UUID (version 4) as described in
 `<http://www.ietf.org/rfc/rfc4122.txt>`_
 

@@ -35,13 +35,14 @@ class GA:
 
         self.futs = set()
 
-    def _prepare_params(self, request_type, cid, **kwargs):
+    def _prepare_params(self, request_type, cid=None, **kwargs):
         params = {
             'v': self.version,
             'tid': self.tracking_id,
-            'cid': cid,
             't': request_type,
         }
+        if cid is not None:
+            params['cid'] = cid
 
         params.update(**kwargs)
 
@@ -79,28 +80,28 @@ class GA:
 
         return fut
 
-    def pageview(self, cid, **kwargs):
+    def pageview(self, cid=None, **kwargs):
         return self._request('pageview', cid, **kwargs)
 
-    def screenview(self, cid, **kwargs):
+    def screenview(self, cid=None, **kwargs):
         return self._request('screenview', cid, **kwargs)
 
-    def event(self, cid, **kwargs):
+    def event(self, cid=None, **kwargs):
         return self._request('event', cid, **kwargs)
 
-    def transaction(self, cid, **kwargs):
+    def transaction(self, cid=None, **kwargs):
         return self._request('transaction', cid, **kwargs)
 
-    def item(self, cid, **kwargs):
+    def item(self, cid=None, **kwargs):
         return self._request('item', cid, **kwargs)
 
-    def social(self, cid, **kwargs):
+    def social(self, cid=None, **kwargs):
         return self._request('social', cid, **kwargs)
 
-    def exception(self, cid, **kwargs):
+    def exception(self, cid=None, **kwargs):
         return self._request('exception', cid, **kwargs)
 
-    def timing(self, cid, **kwargs):
+    def timing(self, cid=None, **kwargs):
         return self._request('timing', cid, **kwargs)
 
     async def close(self):

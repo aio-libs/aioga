@@ -67,7 +67,8 @@ Available methods
 Available parameters
 --------------------
 
-All methods require cid (Client ID). The value of this field
+All methods accept cid (Client ID). This field is mandatory,
+unless uid (User ID) is provided. The value of the cid field
 should be a random UUID (version 4) as described in
 `<http://www.ietf.org/rfc/rfc4122.txt>`_
 
